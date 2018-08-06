@@ -14,6 +14,10 @@ function makeGraph(error, wineData) {
     });
 
     priceAndPointsByCountry(ndx)
+    showSelectMenu(ndx)
+    boxplotPointsByTaster(ndx) 
+    scatterPriceByPoints(ndx)
+    scatterPointsByLength_description(ndx) 
 
     dc.renderAll();
 }
@@ -248,6 +252,8 @@ function averagePriceByYear(ndx) {
 }
 
 function scatterPriceByPoints(ndx) {
+    let width = document.getElementById('points-by-price-scatter').offsetWidth;
+    
     let priceDim = ndx.dimension(function(d) {
         return [d.price, d.points];
     });
@@ -255,9 +261,8 @@ function scatterPriceByPoints(ndx) {
 
     let pointsByPriceScatter = dc.scatterPlot("#points-by-price-scatter");
     pointsByPriceScatter
-        .width(1000)
-        .height(480)
-        .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+        .height(200)
+        .width(width)
         .x(d3.scale.linear().domain([0, 300]))
         .y(d3.scale.linear().domain([70, 100]))
         .brushOn(false)
@@ -271,6 +276,7 @@ function scatterPriceByPoints(ndx) {
 
 
 function scatterPointsByLength_description(ndx) {
+    let width = document.getElementById('points-by-length_description-scatter').offsetWidth;
     let length_descriptionDim = ndx.dimension(function(d) {
         return [d.length_description, d.points];
     });
@@ -278,21 +284,21 @@ function scatterPointsByLength_description(ndx) {
 
     let pointsByLength_descriptionScatter = dc.scatterPlot("#points-by-length_description-scatter");
     pointsByLength_descriptionScatter
-        .width(1000)
-        .height(480)
-        .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+        .height(200)
+        .width(width)
         .x(d3.scale.linear().domain([0, 600]))
         .y(d3.scale.linear().domain([70, 100]))
         .brushOn(false)
         .symbolSize(2)
         .clipPadding(100)
-        .xAxisLabel("Points")
-        .yAxisLabel("Description length")
+        .xAxisLabel("Description length")
+        .yAxisLabel("Points")
         .dimension(length_descriptionDim)
         .group(pointsGroup);
 }
 
 function boxplotPointsByTaster(ndx) {
+    let width = document.getElementById('points-by-taster-boxplot').offsetWidth;
     let tasterDim = ndx.dimension(dc.pluck("taster_name"));
 
     let pointsGroup = tasterDim.group().reduce(
@@ -317,13 +323,14 @@ function boxplotPointsByTaster(ndx) {
 
     let pointsByTasterBoxplot = dc.boxPlot("#points-by-taster-boxplot");
     pointsByTasterBoxplot
-        .width(768)
-        .height(480)
-        .margins({ top: 10, right: 50, bottom: 30, left: 50 })
+        .height(200)
+        .width(width)
         .dimension(tasterDim)
         .group(pointsGroup)
         .x(d3.scale.ordinal())
+        .xAxisLabel("Points by taster")
         .xUnits(dc.units.ordinal)
+        .yAxisLabel("Points")
         .transitionDuration(800)
         .y(d3.scale.linear().domain([70, 100]))
         .yAxis().ticks(5);
@@ -331,19 +338,21 @@ function boxplotPointsByTaster(ndx) {
 
 
 function showSelectMenu(ndx) {
-    let countryDim = ndx.dimension(dc.pluck('country'));
-    let countryGroup = countryDim.group();
+    let yearDim = ndx.dimension(dc.pluck('year'));
+    let yearGroup = yearDim.group();
 
-    let selectByCountry = countryDim.group().reduceCount();
+    let selectByYear = yearDim.group().reduceCount();
 
-    dc.selectMenu('#select-by-country')
-        .dimension(countryDim)
-        .group(countryGroup);
+    dc.selectMenu('#select-by-year')
+        .dimension(yearDim)
+        .group(yearGroup);
 
 }
 
 
 function priceAndPointsByCountry(ndx) {
+    let width = document.getElementById('price-and-points-by-country-composite').offsetWidth;
+    
     let countryDim = ndx.dimension(dc.pluck("country"))
 
     let pointsByCountry = countryDim.group().reduce(
@@ -407,7 +416,7 @@ function priceAndPointsByCountry(ndx) {
     let priceAndPointsByCountryComposite = dc.compositeChart("#price-and-points-by-country-composite");
     priceAndPointsByCountryComposite
         .height(200)
-        .width(960)
+        .width(width)
         .dimension(countryDim)
         .group(priceByCountry)
         .x(d3.scale.ordinal())
@@ -415,8 +424,10 @@ function priceAndPointsByCountry(ndx) {
         .shareTitle(false)
         .elasticX(true)
         .elasticY(true)
-        .yAxisLabel("Monthly Index Average")
-        .rightYAxisLabel("Monthly Index Move")
+        .xAxisLabel("Average price and points")
+        .yAxisLabel("Price")
+        .rightYAxisLabel("Points")
+        .y(d3.scale.linear().domain([80, 95]))
         .renderHorizontalGridLines(true)
         .yAxisPadding('10%')
         .compose([
@@ -447,3 +458,9 @@ function priceAndPointsByCountry(ndx) {
         });
 
 }
+
+
+// --------------------------------------------------------------------------------------------------
+//                         JQUERY/JS 
+// --------------------------------------------------------------------------------------------------
+

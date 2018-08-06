@@ -20,14 +20,26 @@
 
     <section class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 text-center" id="average-points-by-country"></div>
+            <a href="javascript:dc.filterAll(); dc.renderAll();"><strong>Reset All by clicking here</strong></a>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-center" id="select-by-year"></div>
         </div>
         <div class="row">
             <div class="col-sm-12 text-center" id="price-and-points-by-country-composite"></div>
         </div>
         <div class="row">
-            <a href="javascript:dc.filterAll(); dc.renderAll();"><strong>Reset All by clicking here</strong></a>
+            <div class="col-sm-4 text-center">
+                <div id="points-by-taster-boxplot"></div>
+            </div>
+            <div class="col-sm-4 text-center">
+                <div id="points-by-price-scatter"></div>
+            </div>
+            <div class="col-sm-4 text-center">
+                <div id="points-by-length_description-scatter"></div>
+            </div>
         </div>
+        
 
 
 
