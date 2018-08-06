@@ -5,15 +5,15 @@ queue()
 function makeGraph(error, wineData) {
     let ndx = crossfilter(wineData);
 
-    averageScoreByCountry(ndx)
-    averagePriceByCountry(ndx)
-    averagePointsByTaster(ndx)
-    averagePointsByYear(ndx)
-    averagePriceByYear(ndx)
-    scatterPriceByPoints(ndx)
-    scatterPointsByLength_description(ndx)
-    boxplotPointsByTaster(ndx)
-    showSelectMenu(ndx) 
+    wineData.forEach(function(d) {
+        d.year = parseInt(d.year);
+        d.length_description = parseInt(d.length_description);
+        if (d.taster_name == "") {
+            d.taster_name = "unknown"
+        }
+    });
+
+    priceAndPointsByCountry(ndx)
 
     dc.renderAll();
 }
@@ -104,6 +104,7 @@ function averagePriceByCountry(ndx) {
         .xAxisLabel("Price by Country")
         .transitionDuration(800)
         .elasticY(true)
+        .yAxisPadding('10%')
         .yAxis().ticks(5);
 
 }
@@ -200,21 +201,27 @@ function averagePriceByYear(ndx) {
     let yearDim = ndx.dimension(dc.pluck("year"));
     let priceGroup = yearDim.group().reduce(
         function(p, v) {
-            p.count++;
-            p.total += +v.price;
-            p.average = p.total / p.count;
+            price = +v.price;
+            if (price != 0 && !isNaN(price)) {
+                p.count++;
+                p.total += +v.price;
+                p.average = p.total / p.count;
+            }
             return p;
         },
         function(p, v) {
-            p.count--;
-            if (p.count == 0) {
-                p.total = 0;
-                p.average = 0;
-            }
-            else {
-                p.total -= +v.price;
+            price = +v.price;
+            if (price != 0 && !isNaN(price)) {
+                p.count--;
+                if (p.count == 0) {
+                    p.total = 0;
+                    p.average = 0;
+                }
+                else {
+                    p.total -= +v.price;
 
-                p.average = p.total / p.count;
+                    p.average = p.total / p.count;
+                }
             }
             return p;
         },
@@ -288,13 +295,19 @@ function scatterPointsByLength_description(ndx) {
 function boxplotPointsByTaster(ndx) {
     let tasterDim = ndx.dimension(dc.pluck("taster_name"));
 
-    var pointsGroup = tasterDim.group().reduce(
+    let pointsGroup = tasterDim.group().reduce(
         function(p, v) {
-            p.push(v.points);
+            points = +v.points;
+            if (points != 0 && !isNaN(points)) {
+                p.push(points);
+            }
             return p;
         },
         function(p, v) {
-            p.splice(p.indexOf(v.points), 1);
+            points = +v.points;
+            if (points != 0 && !isNaN(points)) {
+                p.splice(p.indexOf(points), 1);
+            }
             return p;
         },
         function() {
@@ -326,5 +339,111 @@ function showSelectMenu(ndx) {
     dc.selectMenu('#select-by-country')
         .dimension(countryDim)
         .group(countryGroup);
+
+}
+
+
+function priceAndPointsByCountry(ndx) {
+    let countryDim = ndx.dimension(dc.pluck("country"))
+
+    let pointsByCountry = countryDim.group().reduce(
+        function(p, v) {
+            p.count++;
+            p.total += +v.points;
+            p.average = p.total / p.count;
+            return p;
+        },
+        function(p, v) {
+            p.count--;
+            if (p.count == 0) {
+                p.total = 0;
+                p.average = 0;
+            }
+            else {
+                p.total -= +v.points;
+
+                p.average = p.total / p.count;
+            }
+            return p;
+        },
+        function() {
+            return { count: 0, total: 0, average: 0 };
+        }
+    );
+
+    let priceByCountry = countryDim.group().reduce(
+        function(p, v) {
+            price = +v.price;
+            if (price != 0 && !isNaN(price)) {
+                p.count++;
+                p.total += +v.price;
+                p.average = p.total / p.count;
+            }
+            return p;
+        },
+        function(p, v) {
+            price = +v.price;
+            if (price != 0 && !isNaN(price)) {
+                p.count--;
+                if (p.count == 0) {
+                    p.total = 0;
+                    p.average = 0;
+                }
+                else {
+                    p.total -= +v.price;
+
+                    p.average = p.total / p.count;
+                }
+            }
+            return p;
+        },
+        function() {
+            return { count: 0, total: 0, average: 0 };
+        }
+    );
+
+
+
+    let priceAndPointsByCountryComposite = dc.compositeChart("#price-and-points-by-country-composite");
+    priceAndPointsByCountryComposite
+        .height(200)
+        .width(960)
+        .dimension(countryDim)
+        .group(priceByCountry)
+        .x(d3.scale.ordinal())
+        .xUnits(dc.units.ordinal)
+        .shareTitle(false)
+        .elasticX(true)
+        .elasticY(true)
+        .yAxisLabel("Monthly Index Average")
+        .rightYAxisLabel("Monthly Index Move")
+        .renderHorizontalGridLines(true)
+        .yAxisPadding('10%')
+        .compose([
+            dc.barChart(priceAndPointsByCountryComposite)
+            .valueAccessor(function(p) {
+                return p.value.average;
+            })
+            .colors('green')
+            .gap(200)
+            .centerBar(true)
+            .group(pointsByCountry, 'points')
+            .useRightYAxis(true),
+            dc.barChart(priceAndPointsByCountryComposite)
+            .valueAccessor(function(p) {
+                return p.value.average;
+            })
+            .colors('red')
+            .gap(200)
+            .centerBar(true)
+            .group(priceByCountry, 'price')
+        ])
+        .brushOn(false)
+    priceAndPointsByCountryComposite
+        .renderlet(function(chart) {
+            chart.selectAll("g._2").attr("transform", "translate(" + 40 + ", 0)");
+            chart.selectAll("g._1").attr("transform", "translate(" + 20 + ", 0)");
+            chart.selectAll("g._0").attr("transform", "translate(" + 1 + ", 0)");
+        });
 
 }
