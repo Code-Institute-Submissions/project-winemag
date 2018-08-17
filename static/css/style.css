@@ -1,3 +1,12 @@
-.scale {
-    transform: scale(2);
+select {
+    display: inline-block;
+}
+
+#price-and-points-by-country-composite {
+    width: 100vw;
+}
+
+#price-and-points-by-country-composite g.axis text {
+    transform: rotate(-45deg);
+    text-anchor: end !important;
 }

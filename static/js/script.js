@@ -1,3 +1,7 @@
+$(document).ready(function() {
+    $('.sidenav').sidenav();
+});
+
 queue()
     .defer(d3.json, "/data")
     .await(makeGraph);
@@ -13,11 +17,11 @@ function makeGraph(error, wineData) {
         }
     });
 
-    priceAndPointsByCountry(ndx)
-    showSelectMenu(ndx)
-    boxplotPointsByTaster(ndx) 
-    scatterPriceByPoints(ndx)
-    scatterPointsByLength_description(ndx) 
+    priceAndPointsByCountry(ndx);
+    showSelectMenu(ndx);
+    boxplotPointsByTaster(ndx); 
+    scatterPriceByPoints(ndx);
+    scatterPointsByLength_description(ndx); 
 
     dc.renderAll();
 }
@@ -340,13 +344,11 @@ function boxplotPointsByTaster(ndx) {
 function showSelectMenu(ndx) {
     let yearDim = ndx.dimension(dc.pluck('year'));
     let yearGroup = yearDim.group();
-
-    let selectByYear = yearDim.group().reduceCount();
+    // let selectByYear = yearDim.group().reduceCount();
 
     dc.selectMenu('#select-by-year')
         .dimension(yearDim)
         .group(yearGroup);
-
 }
 
 
@@ -435,7 +437,7 @@ function priceAndPointsByCountry(ndx) {
             .valueAccessor(function(p) {
                 return p.value.average;
             })
-            .colors('green')
+            .colors('#ff6e40')
             .gap(40)
             .centerBar(true)
             .y(d3.scale.linear().domain([80, 95]))
@@ -444,7 +446,7 @@ function priceAndPointsByCountry(ndx) {
             .valueAccessor(function(p) {
                 return p.value.average;
             })
-            .colors('red')
+            .colors('#69f0ae')
             .gap(40)
             .centerBar(true)
             .group(priceByCountry, 'price')
