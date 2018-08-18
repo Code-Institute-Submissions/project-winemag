@@ -16,26 +16,38 @@
     <title>Winemag | Data Dashboard</title>
 </head>
 
-<header>
-    <nav class="green accent-2">
+
+<body>
+<div class="navbar-fixed">
+    <nav class="nav-extended">
         <div class="nav-wrapper">
-            <a href="{{url_for('show_index')}}" class="brand-logo">Winemag</a>
+            <a href="#" class="brand-logo">Winemag</a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-                <li><a class="nav-text-color-mobile" href="{{url_for('show_index')}}">Home</a></li>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="javascript:dc.filterAll(); dc.renderAll();"><i class="material-icons left">settings_backup_restore</i>Reset all data</a></li>
+            </ul>
+        </div>
+        <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a href="#price-and-points-by-country-composite">Price/Points</a></li>
+                <li class="tab"><a class="active" href="#points-by-taster-boxplot">Taster</a></li>
+                <li class="tab"><a href="#points-by-price-scatter">Points/Price correlation</a></li>
+                <li class="tab"><a href="#points-by-length_description-scatter">Description</a></li>
+                <li class="tab"><i class="material-icons left">date_range</i>
+                    <div id="select-by-year"></div>
+                </li>
             </ul>
         </div>
     </nav>
+</div>
 
-    <ul class="sidenav white" id="mobile-demo">
-        <li><a class="nav-text-color-mobile" href="{{url_for('show_index')}}">Home</a></li>
-    </ul>
-</header>
+<ul class="sidenav" id="mobile-demo">
+    <li><a href="javascript:dc.filterAll(); dc.renderAll();"><i class="material-icons left">settings_backup_restore</i>Reset all data</a></li>
+</ul>
 
-<body>
-
-        {% block content %} {% endblock %}
-   
+<section class="block-content-margin">
+    {% block content %} {% endblock %}
+</section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>

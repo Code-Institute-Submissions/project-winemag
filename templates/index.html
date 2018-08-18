@@ -1,26 +1,23 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
-    <section>
-        <div class="row">
-            <a href="javascript:dc.filterAll(); dc.renderAll();" class="waves-effect waves-light btn"><i class="material-icons left">settings_backup_restore</i>Reset all data</a>
-            <div class="col s3 center-align" id="select-by-year"></div>
-        </div>
-        <div class="row">
-            <div class="col s12" id="price-and-points-by-country-composite"></div>
-        </div>
-        <div class="row">
-            <div class="col s12">
-                <div id="points-by-taster-boxplot"></div>
-            </div>
-            <div class="col s12">
-                <div id="points-by-price-scatter"></div>
-            </div>
-            <div class="col s12">
-                <div id="points-by-length_description-scatter"></div>
-            </div>
-        </div>
-    </section>
+<section class="graphs">
+    <div class="row">
+        <div class="col s9" id="price-and-points-by-country-composite"></div>
+        <div class="col s3"></div>
+    </div>
+    <div class="row">
+        <div class="col s3"></div>
+        <div class="col s9" id="points-by-taster-boxplot"></div>
+    </div>
+    <div class="row">
+        <div class="col s9" id="points-by-price-scatter"></div>
+        <div class="col s3"></div>
+    </div>
+    <div class="row">
+        <div class="col s3"></div>
+        <div class="col s9" id="points-by-length_description-scatter"></div>
+    </div>
+</section>
 
- 
+
 {% endblock %}
