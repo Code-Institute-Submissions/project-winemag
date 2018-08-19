@@ -19,9 +19,10 @@ function makeGraph(error, wineData) {
 
     priceAndPointsByCountry(ndx);
     showSelectMenu(ndx);
-    boxplotPointsByTaster(ndx); 
+    boxplotPointsByTaster(ndx);
     scatterPriceByPoints(ndx);
-    scatterPointsByLength_description(ndx); 
+    scatterPointsByLength_description(ndx);
+    winesByCountry(ndx);
 
     dc.renderAll();
 }
@@ -257,7 +258,7 @@ function averagePriceByYear(ndx) {
 
 function scatterPriceByPoints(ndx) {
     let width = document.getElementById('points-by-price-scatter').offsetWidth;
-    
+
     let priceDim = ndx.dimension(function(d) {
         return [d.price, d.points];
     });
@@ -354,7 +355,7 @@ function showSelectMenu(ndx) {
 
 function priceAndPointsByCountry(ndx) {
     let width = document.getElementById('price-and-points-by-country-composite').offsetWidth;
-    
+
     let countryDim = ndx.dimension(dc.pluck("country"))
 
     let pointsByCountry = countryDim.group().reduce(
@@ -427,7 +428,6 @@ function priceAndPointsByCountry(ndx) {
         .elasticX(true)
         .elasticY(false)
         .y(d3.scale.linear().domain([80, 95]))
-        .xAxisLabel("Average price and points")
         .yAxisLabel("Points")
         .rightYAxisLabel("Price")
         .renderHorizontalGridLines(true)
@@ -459,6 +459,20 @@ function priceAndPointsByCountry(ndx) {
             chart.selectAll("g._1").attr("transform", "translate(" + 20 + ", 0)");
             chart.selectAll("g._0").attr("transform", "translate(" + 1 + ", 0)");
         });
+}
+
+function winesByCountry(ndx) {
+    let countryDim = ndx.dimension(dc.pluck("country"))
+    let countByCountry = countryDim.group()
+
+    let winesByCountryPie = dc.pieChart("#wines-by-country-pie");
+    winesByCountryPie
+        .height(400)
+        .radius(150)
+        .transitionDuration(800)
+        .dimension(countryDim)
+        .group(countByCountry)
+        .innerRadius(100);
 
 }
 
@@ -466,4 +480,3 @@ function priceAndPointsByCountry(ndx) {
 // --------------------------------------------------------------------------------------------------
 //                         JQUERY/JS 
 // --------------------------------------------------------------------------------------------------
-

@@ -1,23 +1,31 @@
 {% extends "base.html" %} {% block content %}
 
 <section class="graphs">
-    <div class="row">
-        <div class="col s9" id="price-and-points-by-country-composite"></div>
-        <div class="col s3"></div>
+    <div class="row price-points-view">
+        <div class="col s9" id="price-and-points-by-country-composite">
+            <h6>Average price and points by country</h6>
+        </div>
+        <div class="col s3" id="wines-by-country-pie">
+            <h6>Number of wines</h6>
+        </div>
     </div>
-    <div class="row">
+    
+    <div class="row taster-view">
         <div class="col s3"></div>
         <div class="col s9" id="points-by-taster-boxplot"></div>
     </div>
-    <div class="row">
+    <div class="row correlation view">
         <div class="col s9" id="points-by-price-scatter"></div>
         <div class="col s3"></div>
-    </div>
-    <div class="row">
-        <div class="col s3"></div>
-        <div class="col s9" id="points-by-length_description-scatter"></div>
+        <div class="row">
+            <div class="col s3"></div>
+            <div class="col s9" id="points-by-length_description-scatter"></div>
+        </div>
     </div>
 </section>
 
+<footer>
+    <!--social media icons here-->
+</footer>
 
 {% endblock %}
