@@ -1,6 +1,15 @@
+// --------------------------------------------------------------------------------------------------
+//                         JQUERY/JS 
+// --------------------------------------------------------------------------------------------------
+
 $(document).ready(function() {
     $('.sidenav').sidenav();
 });
+
+// --------------------------------------------------------------------------------------------------
+//                         GRAPHS
+// --------------------------------------------------------------------------------------------------
+
 
 queue()
     .defer(d3.json, "/data")
@@ -303,7 +312,6 @@ function scatterPointsByLength_description(ndx) {
 }
 
 function boxplotPointsByTaster(ndx) {
-    let width = document.getElementById('points-by-taster-boxplot').offsetWidth;
     let tasterDim = ndx.dimension(dc.pluck("taster_name"));
 
     let pointsGroup = tasterDim.group().reduce(
@@ -328,16 +336,16 @@ function boxplotPointsByTaster(ndx) {
 
     let pointsByTasterBoxplot = dc.boxPlot("#points-by-taster-boxplot");
     pointsByTasterBoxplot
-        .height(200)
-        .width(width)
+        .height(220)
+        .width(800)
+        .margins({ top: 0, right: 40, bottom: 80, left: 40 })
         .dimension(tasterDim)
         .group(pointsGroup)
         .x(d3.scale.ordinal())
-        .xAxisLabel("Points by taster")
         .xUnits(dc.units.ordinal)
         .yAxisLabel("Points")
         .transitionDuration(800)
-        .y(d3.scale.linear().domain([70, 100]))
+        .y(d3.scale.linear().domain([75, 100]))
         .yAxis().ticks(5);
 }
 
@@ -354,8 +362,6 @@ function showSelectMenu(ndx) {
 
 
 function priceAndPointsByCountry(ndx) {
-    let width = document.getElementById('price-and-points-by-country-composite').offsetWidth;
-
     let countryDim = ndx.dimension(dc.pluck("country"))
 
     let pointsByCountry = countryDim.group().reduce(
@@ -418,10 +424,12 @@ function priceAndPointsByCountry(ndx) {
 
     let priceAndPointsByCountryComposite = dc.compositeChart("#price-and-points-by-country-composite");
     priceAndPointsByCountryComposite
+        .width(800)
         .height(200)
-        .width(width)
+        .margins({ top: 0, right: 40, bottom: 60, left: 40 })
         .dimension(countryDim)
         .group(priceByCountry)
+        .legend(dc.legend().x(100).y(0).itemHeight(13).gap(5))
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .shareTitle(false)
@@ -431,14 +439,14 @@ function priceAndPointsByCountry(ndx) {
         .yAxisLabel("Points")
         .rightYAxisLabel("Price")
         .renderHorizontalGridLines(true)
-        .yAxisPadding('10%')
+        .yAxisPadding('0%')
         .compose([
             dc.barChart(priceAndPointsByCountryComposite)
             .valueAccessor(function(p) {
                 return p.value.average;
             })
             .colors('#ff6e40')
-            .gap(40)
+            .gap(25)
             .centerBar(true)
             .y(d3.scale.linear().domain([80, 95]))
             .group(pointsByCountry, 'points'),
@@ -447,7 +455,7 @@ function priceAndPointsByCountry(ndx) {
                 return p.value.average;
             })
             .colors('#69f0ae')
-            .gap(40)
+            .gap(20)
             .centerBar(true)
             .group(priceByCountry, 'price')
             .useRightYAxis(true)
@@ -462,21 +470,18 @@ function priceAndPointsByCountry(ndx) {
 }
 
 function winesByCountry(ndx) {
-    let countryDim = ndx.dimension(dc.pluck("country"))
-    let countByCountry = countryDim.group()
+    let countryDim = ndx.dimension(dc.pluck("country"));
+    let countByCountry = countryDim.group();
 
     let winesByCountryPie = dc.pieChart("#wines-by-country-pie");
     winesByCountryPie
-        .height(400)
-        .radius(150)
+        .height(410)
+        .radius(205)
         .transitionDuration(800)
         .dimension(countryDim)
         .group(countByCountry)
-        .innerRadius(100);
-
+        .innerRadius(180)
+        .legend(dc.legend().legendText(function(d) {return d.name + ": "+ d.data}).x(160).y(38).itemHeight(12).gap(5))
 }
 
 
-// --------------------------------------------------------------------------------------------------
-//                         JQUERY/JS 
-// --------------------------------------------------------------------------------------------------

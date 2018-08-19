@@ -7,10 +7,10 @@
 
 /*-----------------------------------------------------------------------Special paddings and margins*/
 .block-content-margin {
-    margin-top: 70px;
+    margin-top: 55px;
 }
 
-.price-points-view, .taster-view, .correlation-view {
+.price-points-view, .taster-view, .correlation-view  {
     height: 100vh;
 }
 
@@ -22,7 +22,7 @@ select {
 
 
 
-#price-and-points-by-country-composite g.axis.x text {
+#price-and-points-by-country-composite g.axis.x text, #points-by-taster-boxplot g.axis.x text {
     transform: rotate(-45deg);
     text-anchor: end !important;
 }
