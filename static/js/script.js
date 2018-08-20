@@ -10,9 +10,13 @@ $(document).ready(function() {
 //                         GRAPHS
 // --------------------------------------------------------------------------------------------------
 
+let urlStr = window.location.href;
+let n = urlStr.lastIndexOf('/');
+let region = urlStr.substring(n+1);
+
 
 queue()
-    .defer(d3.json, "/data")
+    .defer(d3.json, '/data'+region)
     .await(makeGraph);
 
 function makeGraph(error, wineData) {
@@ -27,7 +31,8 @@ function makeGraph(error, wineData) {
     });
 
     priceAndPointsByCountry(ndx);
-    showSelectMenu(ndx);
+    showSelectMenuYear(ndx);
+    showSelectMenuVariety(ndx);
     boxplotPointsByTaster(ndx);
     scatterPriceByPoints(ndx);
     scatterPointsByLength_description(ndx);
@@ -280,7 +285,7 @@ function scatterPriceByPoints(ndx) {
         .x(d3.scale.linear().domain([0, 400]))
         .y(d3.scale.linear().domain([70, 100]))
         .brushOn(true)
-        .symbolSize(1)
+        .symbolSize(2)
         .clipPadding(0)
         .xAxisLabel("Price")
         .yAxisLabel("Points")
@@ -350,14 +355,22 @@ function boxplotPointsByTaster(ndx) {
 }
 
 
-function showSelectMenu(ndx) {
+function showSelectMenuYear(ndx) {
     let yearDim = ndx.dimension(dc.pluck('year'));
     let yearGroup = yearDim.group();
-    // let selectByYear = yearDim.group().reduceCount();
 
     dc.selectMenu('#select-by-year')
         .dimension(yearDim)
         .group(yearGroup);
+}
+
+function showSelectMenuVariety(ndx) {
+    let varietyDim = ndx.dimension(dc.pluck('variety'));
+    let varietyGroup = varietyDim.group();
+
+    dc.selectMenu('#select-by-variety')
+        .dimension(varietyDim)
+        .group(varietyGroup);
 }
 
 
@@ -429,7 +442,7 @@ function priceAndPointsByCountry(ndx) {
         .margins({ top: 0, right: 40, bottom: 60, left: 40 })
         .dimension(countryDim)
         .group(priceByCountry)
-        .legend(dc.legend().x(100).y(0).itemHeight(13).gap(5))
+        .legend(dc.legend().x(70).y(0).itemHeight(13).gap(5))
         .x(d3.scale.ordinal())
         .xUnits(dc.units.ordinal)
         .shareTitle(false)

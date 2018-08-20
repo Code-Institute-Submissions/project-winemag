@@ -29,11 +29,16 @@
         </div>
         <div class="nav-content">
             <ul class="tabs tabs-transparent">
+                <li class="tab"><a href="{{ url_for('show_europe')}}">europe</a></li>
+                <li class="tab"><a href="{{ url_for('show_row')}}">rest of the world</a></li>
                 <li class="tab"><a href="#price-and-points-by-country-composite">Price and points</a></li>
                 <li class="tab"><a class="active" href="#points-by-taster-boxplot">Tasters</a></li>
                 <li class="tab"><a href="#points-by-price-scatter">Correlation</a></li>
                 <li class="tab"><i class="material-icons left">date_range</i>
                     <div id="select-by-year"></div>
+                </li>
+                <li class="tab"><i class="material-icons left">filter_list</i>
+                    <div id="select-by-variety"></div>
                 </li>
             </ul>
         </div>
@@ -47,6 +52,11 @@
 <section class="block-content-margin">
     {% block content %} {% endblock %}
 </section>
+
+
+<footer>
+    <!--social media icons here-->
+</footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>

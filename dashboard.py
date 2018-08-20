@@ -10,13 +10,22 @@ app.config["MONGO_DBNAME"] = "data_dashboard"
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 mongo = PyMongo(app)
 
-@app.route("/")
-def show_index():
+@app.route("/europe")
+def show_europe():
+    return render_template("index.html")
+    
+@app.route("/row")
+def show_row():
     return render_template("index.html")
 
-@app.route("/data")
-def show_data():
-    reviews = mongo.db.winereviews.find({},{"_id": False})
+@app.route("/dataeurope")
+def show_data_europe():
+    reviews = mongo.db['data-europe'].find({},{"_id": False})
+    return json.dumps(list(reviews))
+
+@app.route("/datarow")
+def show_data_row():
+    reviews = mongo.db['data-row'].find({},{"_id": False})
     return json.dumps(list(reviews))
 
 if __name__ == "__main__":
