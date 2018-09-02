@@ -1,17 +1,19 @@
-
 /*-----------------------------------------------------------------------Background colors*/
 
-
+body {
+    background-color: white;
+}
 
 
 
 /*-----------------------------------------------------------------------Special paddings and margins*/
-.block-content-margin {
+
+.content-margin {
     margin-top: 55px;
 }
 
-.price-points-view, .taster-view, .correlation-view  {
-    height: 100vh;
+#select-by-year {
+    padding-right: 16px;
 }
 
 select {
@@ -20,13 +22,39 @@ select {
 
 #wines-by-country-pie {
     margin-left: -30px;
+    max-width: 400px
 }
 
 
 
 
 
-#price-and-points-by-country-composite g.axis.x text, #points-by-taster-boxplot g.axis.x text {
+#price-and-points-by-country-composite g.axis.x text,
+#points-by-taster-boxplot g.axis.x text {
     transform: rotate(-45deg);
     text-anchor: end !important;
+}
+
+/*-----------------------------------------------------------------------Home.html*/
+
+.image-wrapper {
+    min-height: 100vh;
+    background-image: url("../image/winefields.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0px;
+}
+
+.content-wrapper {
+    min-height: 250px;
+    background-color: rgba(255, 255, 255, 0.8);
+    max-width: 700px;
+    margin: 0 auto;
+    border-radius: 5px; 
+}
+
+.text-wrapper {
+    margin-left: 20px;
+    margin-right: 20px; 
 }

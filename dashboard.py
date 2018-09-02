@@ -10,6 +10,10 @@ app.config["MONGO_DBNAME"] = "data_dashboard"
 app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
 mongo = PyMongo(app)
 
+@app.route("/")
+def show_home():
+    return render_template("home.html")
+
 @app.route("/europe")
 def show_europe():
     return render_template("index.html")

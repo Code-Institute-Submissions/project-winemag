@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block content %}
+<div class="image-wrapper valign-wrapper">
+    <div class="content-wrapper">
+        <div class="text-wrapper">
+            <h4><strong>Welcom to the Winemag data dashboard</strong></h4>
+            <p>This dashboard visualizes data on the best (and worst) wines from all over the world, carefully gathered by the wine experts from Winemag. See what insights you can get from our data. Enjoy exploring the wonderful world of wines!</p>
+            <a class="cyan darken-3 waves-effect waves-light btn-large" href="{{ url_for('show_europe')}}">Europe</a>
+            <a class="cyan darken-3 waves-effect waves-light btn-large" href="{{ url_for('show_row')}}">Rest of the world</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

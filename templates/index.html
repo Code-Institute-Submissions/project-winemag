@@ -1,29 +1,49 @@
 {% extends "base.html" %} {% block content %}
 
-<section class="graphs">
-    <div class="row price-points-view">
+<div class="navbar-fixed">
+    <nav class="nav-extended green darken-2">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">Winemag</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="javascript:dc.filterAll(); dc.renderAll();"><i class="material-icons left">settings_backup_restore</i>Reset all data</a></li>
+            </ul>
+        </div>
+        <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a href="{{ url_for('show_europe')}}">europe</a></li>
+                <li class="tab"><a href="{{ url_for('show_row')}}">rest of the world</a></li>
+                <li class="tab"><i class="material-icons left">date_range</i>
+                    <div id="select-by-year"></div>
+                </li>
+                <li class="tab"><i class="material-icons left">filter_list</i>
+                    <div id="select-by-variety"></div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<ul class="sidenav" id="mobile-demo">
+    <li><a href="javascript:dc.filterAll(); dc.renderAll();"><i class="material-icons left">settings_backup_restore</i>Reset all data</a></li>
+</ul>
+
+<section class="graphs content-margin">
+    <div class="row">
         <div class="col s8">
             <div class="col s12 center-align" id="price-and-points-by-country-composite">
-                <h6>Average price and points by country</h6>
+                <h6><strong>Average price and points by country</strong></h6>
             </div>
             <div class="col s12 center-align" id="points-by-taster-boxplot">
-                <h6>Points by taster</h6>
+                <h6><strong>Points by taster</strong></h6>
             </div>
         </div>
         <div class="col s4 center-align" id="wines-by-country-pie">
-            <h6>Number of wines</h6>
+            <h6><strong>Number of wines</strong></h6>
         </div>
     </div>
 
    
-    <div class="row correlation view">
-        <div class="col s9" id="points-by-price-scatter"></div>
-        <div class="col s3"></div>
-        <div class="row">
-            <div class="col s3"></div>
-            <div class="col s9" id="points-by-length_description-scatter"></div>
-        </div>
-    </div>
 </section>
 
 {% endblock %}
