@@ -3,8 +3,9 @@ This project is a data dashboard built with the data from Winemag, a magazine fo
 
 Files with large amounts of data are not necessarily very valuable for people. Without help, humans are not able to quickly give meaning to such large amounts of data. In particular if you're not a data expert. Therefore, the list of data on the more than 25.000 wines from Winemag on itself is not very insightful. This project addresses this problem. It uses software to visualize the data. This will make it much easier for users to quickly see relations in the data and draw valuable conclusions. 
 
-#### Live preview
-A live version of the project can be found [here].
+#### Live demo
+A live demo of the web app can be viewed [here].
+
 [here]: https://sdv-project-winemag.herokuapp.com/
 
 ## Built with
