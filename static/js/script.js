@@ -34,7 +34,7 @@ function makeGraph(error, wineData) {
     showSelectMenuVariety(ndx);
     boxplotPointsByTaster(ndx);
     winesByCountry(ndx);
-    scatterPriceByPoints(ndx)
+    scatterPriceByPoints(ndx);
 
     dc.renderAll();
 }
