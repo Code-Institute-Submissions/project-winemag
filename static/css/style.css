@@ -1,8 +1,5 @@
-/*-----------------------------------------------------------------------Background colors*/
+@import url('https://fonts.googleapis.com/css?family=Karla|Rubik');
 
-body {
-    background-color: white;
-}
 
 
 
@@ -26,13 +23,19 @@ select {
 }
 
 
-
-
-
 #price-and-points-by-country-composite g.axis.x text,
 #points-by-taster-boxplot g.axis.x text {
     transform: rotate(-45deg);
     text-anchor: end !important;
+}
+/*-----------------------------------------------------------------------General*/
+
+body {
+    font-family: 'Karla', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Rubik', sans-serif;
 }
 
 /*-----------------------------------------------------------------------Home.html*/

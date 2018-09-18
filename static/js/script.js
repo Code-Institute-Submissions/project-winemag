@@ -7,13 +7,12 @@ $(document).ready(function() {
 });
 
 // --------------------------------------------------------------------------------------------------
-//                         GRAPHS
+//                         RENDERING THE GRAPHS
 // --------------------------------------------------------------------------------------------------
 
 let urlStr = window.location.href;
 let n = urlStr.lastIndexOf('/');
 let region = urlStr.substring(n+1);
-
 
 queue()
     .defer(d3.json, '/data'+region)
@@ -35,242 +34,16 @@ function makeGraph(error, wineData) {
     showSelectMenuVariety(ndx);
     boxplotPointsByTaster(ndx);
     winesByCountry(ndx);
+    scatterPriceByPoints(ndx)
 
     dc.renderAll();
 }
 
-
-function averageScoreByCountry(ndx) {
-    let countryDim = ndx.dimension(dc.pluck("country"));
-    let pointsGroup = countryDim.group().reduce(
-        function(p, v) {
-            p.count++;
-            p.total += +v.points;
-            p.average = p.total / p.count;
-            return p;
-        },
-        function(p, v) {
-            p.count--;
-            if (p.count == 0) {
-                p.total = 0;
-                p.average = 0;
-            }
-            else {
-                p.total -= +v.points;
-
-                p.average = p.total / p.count;
-            }
-            return p;
-        },
-        function() {
-            return { count: 0, total: 0, average: 0 };
-        }
-    );
-    let averageScoreByCountryBar = dc.barChart("#average-points-by-country")
-    averageScoreByCountryBar
-        .width(1000)
-        .height(300)
-        .margins({ top: 10, right: 50, bottom: 30, left: 50 })
-        .dimension(countryDim)
-        .group(pointsGroup)
-        .valueAccessor(function(p) {
-            return p.value.average;
-        })
-        .y(d3.scale.linear().domain([80, 95]))
-        .x(d3.scale.ordinal())
-        .xUnits(dc.units.ordinal)
-        .xAxisLabel("Points by Country")
-        .transitionDuration(800)
-        .yAxis().ticks(10);
-}
-
-function averagePriceByCountry(ndx) {
-    let countryDim = ndx.dimension(dc.pluck("country"));
-    let priceGroup = countryDim.group().reduce(
-        function(p, v) {
-            p.count++;
-            p.total += +v.price;
-            p.average = p.total / p.count;
-            return p;
-        },
-        function(p, v) {
-            p.count--;
-            if (p.count == 0) {
-                p.total = 0;
-                p.average = 0;
-            }
-            else {
-                p.total -= +v.price;
-
-                p.average = p.total / p.count;
-            }
-            return p;
-        },
-        function() {
-            return { count: 0, total: 0, average: 0 };
-        }
-    );
-    let averagePriceByCountryBar = dc.barChart("#average-price-by-country")
-    averagePriceByCountryBar
-        .width(1000)
-        .height(300)
-        .margins({ top: 10, right: 50, bottom: 30, left: 50 })
-        .dimension(countryDim)
-        .group(priceGroup)
-        .valueAccessor(function(p) {
-            return p.value.average;
-        })
-        .x(d3.scale.ordinal())
-        .xUnits(dc.units.ordinal)
-        .xAxisLabel("Price by Country")
-        .transitionDuration(800)
-        .elasticY(true)
-        .yAxisPadding('10%')
-        .yAxis().ticks(5);
-
-}
-
-function averagePointsByTaster(ndx) {
-    let tasterDim = ndx.dimension(dc.pluck("taster_name"));
-    let pointsGroup = tasterDim.group().reduce(
-        function(p, v) {
-            p.count++;
-            p.total += +v.points;
-            p.average = p.total / p.count;
-            return p;
-        },
-        function(p, v) {
-            p.count--;
-            if (p.count == 0) {
-                p.total = 0;
-                p.average = 0;
-            }
-            else {
-                p.total -= +v.points;
-
-                p.average = p.total / p.count;
-            }
-            return p;
-        },
-        function() {
-            return { count: 0, total: 0, average: 0 };
-        }
-    );
-    let averagePointsByTasterBar = dc.barChart("#average-points-by-taster")
-    averagePointsByTasterBar
-        .width(1000)
-        .height(300)
-        .margins({ top: 10, right: 50, bottom: 30, left: 50 })
-        .dimension(tasterDim)
-        .group(pointsGroup)
-        .valueAccessor(function(p) {
-            return p.value.average;
-        })
-        .x(d3.scale.ordinal())
-        .xUnits(dc.units.ordinal)
-        .xAxisLabel("Points by taster")
-        .transitionDuration(800)
-        .y(d3.scale.linear().domain([80, 95]))
-        .yAxis().ticks(5);
-}
-
-function averagePointsByYear(ndx) {
-    let yearDim = ndx.dimension(dc.pluck("year"));
-    let pointsGroup = yearDim.group().reduce(
-        function(p, v) {
-            p.count++;
-            p.total += +v.points;
-            p.average = p.total / p.count;
-            return p;
-        },
-        function(p, v) {
-            p.count--;
-            if (p.count == 0) {
-                p.total = 0;
-                p.average = 0;
-            }
-            else {
-                p.total -= +v.points;
-
-                p.average = p.total / p.count;
-            }
-            return p;
-        },
-        function() {
-            return { count: 0, total: 0, average: 0 };
-        }
-    );
-    let averagePointsByYearBar = dc.barChart("#average-points-by-year")
-    averagePointsByYearBar
-        .width(1000)
-        .height(300)
-        .margins({ top: 10, right: 50, bottom: 30, left: 50 })
-        .dimension(yearDim)
-        .group(pointsGroup)
-        .valueAccessor(function(p) {
-            return p.value.average;
-        })
-        .x(d3.scale.ordinal())
-        .xUnits(dc.units.ordinal)
-        .xAxisLabel("Points by year")
-        .transitionDuration(800)
-        .y(d3.scale.linear().domain([80, 100]))
-        .yAxis().ticks(5);
-}
-
-function averagePriceByYear(ndx) {
-    let yearDim = ndx.dimension(dc.pluck("year"));
-    let priceGroup = yearDim.group().reduce(
-        function(p, v) {
-            price = +v.price;
-            if (price != 0 && !isNaN(price)) {
-                p.count++;
-                p.total += +v.price;
-                p.average = p.total / p.count;
-            }
-            return p;
-        },
-        function(p, v) {
-            price = +v.price;
-            if (price != 0 && !isNaN(price)) {
-                p.count--;
-                if (p.count == 0) {
-                    p.total = 0;
-                    p.average = 0;
-                }
-                else {
-                    p.total -= +v.price;
-
-                    p.average = p.total / p.count;
-                }
-            }
-            return p;
-        },
-        function() {
-            return { count: 0, total: 0, average: 0 };
-        }
-    );
-    let averagePriceByYearBar = dc.barChart("#average-price-by-year")
-    averagePriceByYearBar
-        .width(1000)
-        .height(300)
-        .margins({ top: 10, right: 50, bottom: 30, left: 50 })
-        .dimension(yearDim)
-        .group(priceGroup)
-        .valueAccessor(function(p) {
-            return p.value.average;
-        })
-        .x(d3.scale.ordinal())
-        .xUnits(dc.units.ordinal)
-        .xAxisLabel("Price by year")
-        .transitionDuration(800)
-        .elasticY(true)
-        .yAxis().ticks(5);
-}
+// --------------------------------------------------------------------------------------------------
+//                         GRAPHS
+// --------------------------------------------------------------------------------------------------
 
 function scatterPriceByPoints(ndx) {
-    let width = document.getElementById('points-by-price-scatter').offsetWidth;
-
     let priceDim = ndx.dimension(function(d) {
         return [d.price, d.points];
     });
@@ -278,9 +51,9 @@ function scatterPriceByPoints(ndx) {
 
     let pointsByPriceScatter = dc.scatterPlot("#points-by-price-scatter");
     pointsByPriceScatter
-        .height(200)
-        .width(width)
-        .x(d3.scale.linear().domain([0, 400]))
+        .height(300)
+        .width(1200)
+        .x(d3.scale.linear().domain([0, 700]))
         .y(d3.scale.linear().domain([70, 100]))
         .brushOn(true)
         .symbolSize(2)
@@ -292,27 +65,6 @@ function scatterPriceByPoints(ndx) {
 }
 
 
-function scatterPointsByLength_description(ndx) {
-    let width = document.getElementById('points-by-length_description-scatter').offsetWidth;
-    let length_descriptionDim = ndx.dimension(function(d) {
-        return [d.length_description, d.points];
-    });
-    let pointsGroup = length_descriptionDim.group();
-
-    let pointsByLength_descriptionScatter = dc.scatterPlot("#points-by-length_description-scatter");
-    pointsByLength_descriptionScatter
-        .height(200)
-        .width(width)
-        .x(d3.scale.linear().domain([0, 700]))
-        .y(d3.scale.linear().domain([70, 100]))
-        .brushOn(true)
-        .symbolSize(2)
-        .clipPadding(0)
-        .xAxisLabel("Description length")
-        .yAxisLabel("Points")
-        .dimension(length_descriptionDim)
-        .group(pointsGroup);
-}
 
 function boxplotPointsByTaster(ndx) {
     let tasterDim = ndx.dimension(dc.pluck("taster_name"));

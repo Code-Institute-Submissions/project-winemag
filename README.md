@@ -57,7 +57,13 @@ app.config["MONGO_URI"] = mongodb://<dbuser>:<dbpassword>@ds111012.mlab.com:1101
 [Winemag data]: https://www.kaggle.com/christopheiv/winemagdata130k
 
 #### Running tests
+When you run the project yourselve it is important to perform some functional tests. How many MongoDB collections are you using? If you are using only one you can get rid of the following lines of code in the script.js file: 
 
+```javascript
+let urlStr = window.location.href;
+let n = urlStr.lastIndexOf('/');
+let region = urlStr.substring(n+1);
+````
 
 ## Acknowledgements
 The data comes from kaggle.com, an awesome website that offers free datasets. 
