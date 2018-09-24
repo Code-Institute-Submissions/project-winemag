@@ -28,7 +28,8 @@ A live demo of the web app can be viewed [here].
 
 ###### Features left to implement
 * Top ten table - What would be really nice to add is a table that will show the top ten number of wines based on their individual scores in combination with their price. It would show the highest scores sorted by price from low to high (sorted by price, because it often happens that wines have the same score).
-* Make right axis of the price/score barchart elastic and the left axis statics. 
+* Make right axis of the price/score barchart elastic and the left axis static. 
+
 
 ## UX
 This project visualizes this data. The main question that can be answered with the data is what the best wine is for the best price. Users of the dashboard can answer this question for wines per country, per grape variety and per year. Additionaly, users can also see which professional taster gave the score.
@@ -65,6 +66,8 @@ let urlStr = window.location.href;
 let n = urlStr.lastIndexOf('/');
 let region = urlStr.substring(n+1);
 ````
+When running the project you can use Google Inspect to see if there are error messages printed to the console. At the moment you will probably see the following error when using the boxplot graph: ```Error: <circle> attribute cy: Expected length, "NaN".```. Even with help of experts I did not manage to find a fix for this error. Fortunateley, it doesn't affect correct presentation of the data. 
+
 
 ## Acknowledgements
 The data comes from kaggle.com, an awesome website that offers free datasets. 

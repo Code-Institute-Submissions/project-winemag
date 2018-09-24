@@ -243,8 +243,8 @@ function winesByCountry(ndx) {
         .transitionDuration(800)
         .dimension(countryDim)
         .group(countByCountry)
-        .innerRadius(180)
-        .legend(dc.legend().legendText(function(d) {return d.name + ": "+ d.data}).x(160).y(38).itemHeight(12).gap(5))
+        .innerRadius(170)
+        .legend(dc.legend().legendText(function(d) {return d.name + ": "+ d.data}).x(160).y(42).itemHeight(12).gap(5))
 }
 
 
